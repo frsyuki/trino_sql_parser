@@ -35,7 +35,7 @@ parser = PrestoSqlParser.new
 begin
   parser.parse("syntax error!")
 rescue PrestoSqlParser::ParseError => e
-  #puts e.message
+  puts e.message
 
   # Detailed error information is available in ParseError#errors
   e.errors.each do |error|
@@ -63,12 +63,17 @@ SQL
 
 parser = PrestoSqlParser.new(with_tokens: true)
 statements = parser.parse(sql)
+
+# First statement's tokens
 p statements[0]['tokens']
 #=> [
 #     ["select", "'SELECT'", 1, 0],
 #     [" ", "WS", 1, 6],
 #     ["1", "INTEGER_VALUE", 1, 7], [";", "DELIMITER", 1, 8]
 #   ]
+
+# Second statement's tokens
+p statements[1]['tokens']
 ```
 
 ## Options
