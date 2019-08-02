@@ -41,12 +41,11 @@ class PrestoSqlParser
     end
 
     def send_line(line)
-      pipe = @mutex.synchronize do
+      @mutex.synchronize do  # block kill! during execution
         start! unless @pipe
-        @pipe
+        @pipe.puts line
+        @last_used_pid = @pipe.pid
       end
-      pipe.puts line
-      @last_used_pid = pipe.pid
       nil
     end
 
