@@ -24,6 +24,38 @@ Or install it yourself as:
 
 `java` command must be available because this PrestoSqlParser needs to use Presto's jar file.
 
+If `java` is not available, such as in a pre-built Docker container, you would install java using following script:
+
+```bash
+if [[ ! -d ~/java/jre_11.0.4_11 ]]; then
+    mkdir -p ~/java
+    curl -L "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jre_x64_linux_hotspot_11.0.4_11.tar.gz" | tar zx -C ~/java
+    mv ~/java/jdk-11.0.4+11-jre ~/java/jre_11.0.4_11
+fi
+echo 'export PATH=$HOME/java/jre_11.0.4_11/bin:$PATH' >> ~/.bashrc
+```
+
+On Circle CI 2.0, you can add following configuration to `steps` section:
+
+```yaml
+  - type: cache-restore
+    key: jre_11.0.4_11
+  - run:
+      name: Install java
+      command: |
+        set -xe
+        if [[ ! -d ~/java/jre_11.0.4_11 ]]; then
+          mkdir -p ~/java
+          curl -L "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jre_x64_linux_hotspot_11.0.4_11.tar.gz" | tar zx -C ~/java
+          mv ~/java/jdk-11.0.4+11-jre ~/java/jre_11.0.4_11
+        fi
+        echo 'export PATH=$HOME/java/jre_11.0.4_11/bin:$PATH' >> $BASH_ENV
+  - type: cache-save
+    key: jre_11.04_11
+    paths:
+      - ~/java
+```
+
 ## Usage
 
 Most typical use case is checking syntax error as following:
