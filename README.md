@@ -79,7 +79,7 @@ p statements[1]['tokens']
 ## Options
 
 ```ruby
-PrestoSqlParser.java_cmd = "java"  # java command
+PrestoSqlParser.java_cmd = "java"  # java command (default: PRESTO_SQL_PARSER_JAVA env var or "java")
 PrestoSqlParser.java_args = []     # command-line arguments of java_cmd
 PrestoSqlParser.java_env = {}      # environment variables given to java_cmd
 ```

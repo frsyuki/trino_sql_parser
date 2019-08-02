@@ -10,9 +10,15 @@ class PrestoSqlParser
 
   extend ClassMethods
 
-  self.java_cmd = "java"
+  self.java_cmd = ENV['PRESTO_SQL_PARSER_JAVA']
+  if self.java_cmd == nil || self.java_cmd.strip.empty?
+    self.java_cmd = "java"
+  end
+
   self.java_args = []
+
   self.java_env = {}
+
   self.jar_path = File.join(File.dirname(__FILE__), "presto_sql_parser/presto-sql-parser.jar")
 
   class ParseError < StandardError
@@ -34,6 +40,9 @@ class PrestoSqlParser
   end
 
   def parse(sql)
+    unless sql.is_a?(String)
+      raise ArgumentError, "SQL must be a String but got #{sql.class}"
+    end
     request_line = JSON.dump({"sql" => sql})
 
     success = false

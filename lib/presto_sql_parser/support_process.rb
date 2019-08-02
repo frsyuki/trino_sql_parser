@@ -1,3 +1,5 @@
+require 'shellwords'
+
 class PrestoSqlParser
   class SupportProcess
     def initialize(idle_wait: 2, with_tokens:)
@@ -12,13 +14,14 @@ class PrestoSqlParser
     def start!
       return if @pipe
 
-      cmd =
+      cmd = (
         [PrestoSqlParser.java_cmd] +
-        PrestoSqlParser.java_args +
-        ["-jar", PrestoSqlParser.jar_path]
+        PrestoSqlParser.java_args.map {|arg| Shellwords.escape(arg) } +
+        ["-jar", Shellwords.escape(PrestoSqlParser.jar_path)]
+      ).join(' ')
 
       if @with_tokens
-        cmd << "--with-tokens"
+        cmd << " --with-tokens"
       end
 
       @pipe = IO.popen(PrestoSqlParser.java_env, cmd, "r+", external_encoding: 'UTF-8')
