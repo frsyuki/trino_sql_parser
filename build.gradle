@@ -1,0 +1,43 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+}
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+group = 'presto-sql-parser-support-process'
+version = '1.0.0'
+
+dependencies {
+    compile 'io.prestosql:presto-parser:316'
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.9"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-guava:2.9.9"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.9"
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+shadowJar {
+    manifest {
+        attributes 'Implementation-Title': project.name,
+                   'Implementation-Version': project.version,
+                   'Implementation-Vendor-Id': project.group,
+                   'Specification-Title': project.name,
+                   'Specification-Version': project.version,
+                   'Main-Class': 'PrestoSqlParserSupportProcess'
+    }
+    mergeServiceFiles {
+    }
+}

@@ -1,0 +1,5 @@
+Gemfile.lock
+pkg/*
+/.gradle
+/build/*
+/lib/presto_sql_parser/presto-sql-parser.jar
