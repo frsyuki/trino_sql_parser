@@ -12,11 +12,11 @@ class PrestoSqlParser
     def start!
       return if @pipe
 
-      cmd = [
-        PrestoSqlParser.java_cmd,
-        "-jar",
-        PrestoSqlParser.jar_path,
-      ]
+      cmd =
+        [PrestoSqlParser.java_cmd] +
+        PrestoSqlParser.java_args +
+        ["-jar", PrestoSqlParser.jar_path]
+
       if @with_tokens
         cmd << "--with-tokens"
       end
