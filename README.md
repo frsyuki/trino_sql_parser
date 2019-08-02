@@ -103,6 +103,6 @@ gem push pkg/presto_sql_parser-<version>.gem
 
 ### Update version and dependencies
 
-Gem version: `VERSION` at `lib/presto_sql_parser/version.rb`
-Presto version: dependency version at `build.gradle`
+* Gem version: `VERSION` at `lib/presto_sql_parser/version.rb`
+* Presto version: dependency version at `build.gradle`
 
