@@ -1,0 +1,13 @@
+
+2019-08-02 version 0.3.0:
+
+* Added support for PRESTO_SQL_PARSER_JAVA env var
+
+2019-08-02 version 0.2.0:
+
+* Fixed PrestoSqlParser.java_args to work
+
+2019-08-01 version 0.1.0:
+
+* The first release
+
