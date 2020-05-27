@@ -124,7 +124,7 @@ PrestoSqlParser.java_env = {}      # environment variables given to java_cmd
 bundle
 bundle exec rake jar    # builds jar to lib/presto_sql_parser/presto-sql-parser.jar
 bundle exec rake spec   # runs tests
-bundle ecec rake build  # builds a gem file
+bundle exec rake build  # builds a gem file
 ```
 
 ### Release
