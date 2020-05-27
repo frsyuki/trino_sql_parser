@@ -9,7 +9,7 @@ group = 'presto-sql-parser-support-process'
 version = '1.0.0'
 
 dependencies {
-    compile 'io.prestosql:presto-parser:316'
+    compile 'io.prestosql:presto-parser:317'
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.9"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-guava:2.9.9"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.9"
