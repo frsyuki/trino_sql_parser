@@ -1,4 +1,9 @@
 
+2020-10-09 version 1.0.0:
+
+* Update Presto version from 317 to 341
+* Presto 341 supports (CREATE | REFRESH) MATERIALIZED VIEW statements
+
 2020-05-27 version 0.4.1:
 
 * Update Presto version from 316 to 317
