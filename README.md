@@ -1,6 +1,6 @@
-# presto_sql_parser
+# trino_sql_parser
 
-Presto SQL Parser for Ruby parses a SQL using Presto's native SQL parser precisely and reports syntax errors.
+Trino SQL Parser for Ruby parses a SQL using Trino's native SQL parser precisely and reports syntax errors.
 
 Optionally, it also returns a ANTLR tokens sequence which is useful to analyze and reformat SQL statements.
 
@@ -9,7 +9,7 @@ Optionally, it also returns a ANTLR tokens sequence which is useful to analyze a
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'presto_sql_parser'
+gem 'trino_sql_parser'
 ```
 
 And then execute:
@@ -18,11 +18,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install presto_sql_parser
+    $ gem install trino_sql_parser
 
 ## Runtime dependency
 
-`java` command must be available because this PrestoSqlParser needs to use Presto's jar file.
+`java` command must be available because this TrinoSqlParser needs to use Trino's jar file.
 
 If `java` is not available, such as in a pre-built Docker container, you would install java using following script:
 
@@ -61,12 +61,12 @@ On Circle CI 2.0, you can add following configuration to `steps` section:
 Most typical use case is checking syntax error as following:
 
 ```ruby
-require 'presto_sql_parser'
+require 'trino_sql_parser'
 
-parser = PrestoSqlParser.new
+parser = TrinoSqlParser.new
 begin
   parser.parse("syntax error!")
-rescue PrestoSqlParser::ParseError => e
+rescue TrinoSqlParser::ParseError => e
   puts e.message
 
   # Detailed error information is available in ParseError#errors
@@ -82,7 +82,7 @@ end
 Optionally, you can get ANTLR token list. It also supports multiple statements.
 
 ```ruby
-require 'presto_sql_parser'
+require 'trino_sql_parser'
 
 sql = <<SQL
 select 1;
@@ -93,7 +93,7 @@ left join profiles on events.profile_id = profiles.id
 group by 1
 SQL
 
-parser = PrestoSqlParser.new(with_tokens: true)
+parser = TrinoSqlParser.new(with_tokens: true)
 statements = parser.parse(sql)
 
 # First statement's tokens
@@ -111,9 +111,9 @@ p statements[1]['tokens']
 ## Options
 
 ```ruby
-PrestoSqlParser.java_cmd = "java"  # java command (default: PRESTO_SQL_PARSER_JAVA env var or "java")
-PrestoSqlParser.java_args = []     # command-line arguments of java_cmd
-PrestoSqlParser.java_env = {}      # environment variables given to java_cmd
+TrinoSqlParser.java_cmd = "java"  # java command (default: TRINO_SQL_PARSER_JAVA env var or "java")
+TrinoSqlParser.java_args = []     # command-line arguments of java_cmd
+TrinoSqlParser.java_env = {}      # environment variables given to java_cmd
 ```
 
 ## Development
@@ -122,7 +122,7 @@ PrestoSqlParser.java_env = {}      # environment variables given to java_cmd
 
 ```
 bundle
-bundle exec rake jar    # builds jar to lib/presto_sql_parser/presto-sql-parser.jar
+bundle exec rake jar    # builds jar to lib/trino_sql_parser/trino-sql-parser.jar
 bundle exec rake spec   # runs tests
 bundle exec rake build  # builds a gem file
 ```
@@ -130,11 +130,11 @@ bundle exec rake build  # builds a gem file
 ### Release
 
 ```
-gem push pkg/presto_sql_parser-<version>.gem
+gem push pkg/trino_sql_parser-<version>.gem
 ```
 
 ### Update version and dependencies
 
-* Gem version: `VERSION` at `lib/presto_sql_parser/version.rb`
-* Presto version: dependency version at `build.gradle`
+* Gem version: `VERSION` at `lib/trino_sql_parser/version.rb`
+* Trino version: dependency version at `build.gradle`
 

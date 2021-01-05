@@ -2,9 +2,9 @@
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.prestosql.sql.parser.StatementSplitterWithOffsetRetained.Fragment;
-import io.prestosql.sql.parser.StatementSplitterWithOffsetRetained;
-import io.prestosql.sql.tree.Statement;
+import io.trino.sql.parser.StatementSplitterWithOffsetRetained.Fragment;
+import io.trino.sql.parser.StatementSplitterWithOffsetRetained;
+import io.trino.sql.tree.Statement;
 import java.util.List;
 import org.antlr.v4.runtime.Token;
 import static com.google.common.collect.ImmutableList.toImmutableList;

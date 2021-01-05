@@ -1,6 +1,6 @@
 require 'shellwords'
 
-class PrestoSqlParser
+class TrinoSqlParser
   class SupportProcess
     def initialize(idle_wait: 2, with_tokens:)
       @idle_wait = idle_wait
@@ -15,16 +15,16 @@ class PrestoSqlParser
       return if @pipe
 
       cmd = (
-        [PrestoSqlParser.java_cmd] +
-        PrestoSqlParser.java_args.map {|arg| Shellwords.escape(arg) } +
-        ["-jar", Shellwords.escape(PrestoSqlParser.jar_path)]
+        [TrinoSqlParser.java_cmd] +
+        TrinoSqlParser.java_args.map {|arg| Shellwords.escape(arg) } +
+        ["-jar", Shellwords.escape(TrinoSqlParser.jar_path)]
       ).join(' ')
 
       if @with_tokens
         cmd << " --with-tokens"
       end
 
-      @pipe = IO.popen(PrestoSqlParser.java_env, cmd, "r+", external_encoding: 'UTF-8')
+      @pipe = IO.popen(TrinoSqlParser.java_env, cmd, "r+", external_encoding: 'UTF-8')
       @pid = @pipe.pid
       Thread.new(@pid, &method(:monitor_thread))
     end

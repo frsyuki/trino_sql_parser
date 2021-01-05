@@ -5,11 +5,11 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'idea'
 
-group = 'presto-sql-parser-support-process'
+group = 'trino-sql-parser-support-process'
 version = '1.0.0'
 
 dependencies {
-    compile 'io.prestosql:presto-parser:341'
+    compile 'io.trino:trino-parser:351'
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.9"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-guava:2.9.9"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.9"
@@ -36,7 +36,7 @@ shadowJar {
                    'Implementation-Vendor-Id': project.group,
                    'Specification-Title': project.name,
                    'Specification-Version': project.version,
-                   'Main-Class': 'PrestoSqlParserSupportProcess'
+                   'Main-Class': 'TrinoSqlParserSupportProcess'
     }
     mergeServiceFiles {
     }

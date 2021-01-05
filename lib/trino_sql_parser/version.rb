@@ -1,3 +1,3 @@
-class PrestoSqlParser
+class TrinoSqlParser
   VERSION = "1.0.0"
 end

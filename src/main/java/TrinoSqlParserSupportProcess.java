@@ -4,20 +4,20 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
-import io.prestosql.sql.parser.ParsingException;
-import io.prestosql.sql.parser.ParsingOptions.DecimalLiteralTreatment;
-import io.prestosql.sql.parser.ParsingOptions;
-import io.prestosql.sql.parser.SqlParser;
-import io.prestosql.sql.parser.StatementSplitterWithOffsetRetained.Fragment;
-import io.prestosql.sql.parser.StatementSplitterWithOffsetRetained;
-import io.prestosql.sql.tree.Statement;
+import io.trino.sql.parser.ParsingException;
+import io.trino.sql.parser.ParsingOptions.DecimalLiteralTreatment;
+import io.trino.sql.parser.ParsingOptions;
+import io.trino.sql.parser.SqlParser;
+import io.trino.sql.parser.StatementSplitterWithOffsetRetained.Fragment;
+import io.trino.sql.parser.StatementSplitterWithOffsetRetained;
+import io.trino.sql.tree.Statement;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class PrestoSqlParserSupportProcess
+public class TrinoSqlParserSupportProcess
 {
     public static void main(String[] args) throws Exception
     {

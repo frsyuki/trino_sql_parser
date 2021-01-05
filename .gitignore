@@ -2,4 +2,4 @@ Gemfile.lock
 pkg/*
 /.gradle
 /build/*
-/lib/presto_sql_parser/presto-sql-parser.jar
+/lib/trino_sql_parser/trino-sql-parser.jar

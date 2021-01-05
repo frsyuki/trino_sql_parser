@@ -1,20 +1,20 @@
-require 'presto_sql_parser'
+require 'trino_sql_parser'
 
-RSpec.describe PrestoSqlParser do
+RSpec.describe TrinoSqlParser do
   let(:parser) do
-    PrestoSqlParser.new
+    TrinoSqlParser.new
   end
 
   it "raises ParseError::ParseError" do
-    expect(lambda { parser.parse("...") }).to raise_error(PrestoSqlParser::ParseError)
+    expect(lambda { parser.parse("...") }).to raise_error(TrinoSqlParser::ParseError)
   end
 
-  describe PrestoSqlParser::ParseError do
+  describe TrinoSqlParser::ParseError do
     it "includes detailed error messages" do
       e = nil
       begin
         parser.parse("xxx; yyy")
-      rescue PrestoSqlParser::ParseError
+      rescue TrinoSqlParser::ParseError
         e = $!
       end
       expect(e.errors[0]['message']).to include("mismatched input 'xxx'")
@@ -26,7 +26,7 @@ RSpec.describe PrestoSqlParser do
 
   context "with_tokens" do
     let(:parser) do
-      PrestoSqlParser.new(with_tokens: true)
+      TrinoSqlParser.new(with_tokens: true)
     end
 
     it "returns token list" do

@@ -1,6 +1,6 @@
 require 'json'
 
-class PrestoSqlParser
+class TrinoSqlParser
   module ClassMethods
     attr_accessor :java_cmd
     attr_accessor :java_args
@@ -10,7 +10,7 @@ class PrestoSqlParser
 
   extend ClassMethods
 
-  self.java_cmd = ENV['PRESTO_SQL_PARSER_JAVA']
+  self.java_cmd = ENV['TRINO_SQL_PARSER_JAVA']
   if self.java_cmd == nil || self.java_cmd.strip.empty?
     self.java_cmd = "java"
   end
@@ -19,7 +19,7 @@ class PrestoSqlParser
 
   self.java_env = {}
 
-  self.jar_path = File.join(File.dirname(__FILE__), "presto_sql_parser/presto-sql-parser.jar")
+  self.jar_path = File.join(File.dirname(__FILE__), "trino_sql_parser/trino-sql-parser.jar")
 
   class ParseError < StandardError
     def initialize(errors)
@@ -33,7 +33,7 @@ class PrestoSqlParser
     attr_reader :errors
   end
 
-  require 'presto_sql_parser/support_process'
+  require 'trino_sql_parser/support_process'
 
   def initialize(with_tokens: false)
     @support_process = SupportProcess.new(with_tokens: with_tokens)

@@ -5,7 +5,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :jar do
   sh "./gradlew shadowJar"
-  cp "build/libs/presto-sql-parser-1.0.0-all.jar", "lib/presto_sql_parser/presto-sql-parser.jar"
+  cp "build/libs/trino-sql-parser-1.0.0-all.jar", "lib/trino_sql_parser/trino-sql-parser.jar"
 end
 
 task :default => [:jar, :spec, :build]

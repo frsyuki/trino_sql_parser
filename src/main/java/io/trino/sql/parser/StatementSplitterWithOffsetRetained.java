@@ -1,6 +1,6 @@
 // This code is in this package following classes are package-private:
-//   io.prestosql.sql.parser.DelimiterLexer
-package io.prestosql.sql.parser;
+//   io.trino.sql.parser.DelimiterLexer
+package io.trino.sql.parser;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
