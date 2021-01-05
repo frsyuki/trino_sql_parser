@@ -1,4 +1,8 @@
 
+2021-01-05 version 1.1.0:
+
+* Update Presto 341 to Trino 351.
+
 2020-10-09 version 1.0.0:
 
 * Update Presto version from 317 to 341
