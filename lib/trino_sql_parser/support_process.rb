@@ -40,17 +40,13 @@ class TrinoSqlParser
       end
     end
 
-    def send_line(line)
+    def send_and_receive_line(line)
       @mutex.synchronize do  # block kill! during execution
         start! unless @pipe
         @pipe.puts line
         @last_used_pid = @pipe.pid
+        @pipe.gets
       end
-      nil
-    end
-
-    def receive_line
-      @pipe.gets
     end
 
     private

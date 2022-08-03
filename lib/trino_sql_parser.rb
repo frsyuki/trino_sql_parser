@@ -47,8 +47,7 @@ class TrinoSqlParser
 
     success = false
     begin
-      @support_process.send_line(request_line)
-      response_line = @support_process.receive_line
+      response_line = @support_process.send_and_receive_line(request_line)
       raise "Process crashed" unless response_line
       response = JSON.parse(response_line)
       statements = response['statements']
