@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.Vocabulary;
@@ -106,9 +106,9 @@ public class StatementSplitterWithOffsetRetained
         }
     }
 
-    private static TokenSource getLexer(String sql, Set<String> terminators)
+    public static TokenSource getLexer(String sql, Set<String> terminators)
     {
-        CharStream stream = new CaseInsensitiveStream(new ANTLRInputStream(sql));
+        CharStream stream = new CaseInsensitiveStream(CharStreams.fromString(sql));
         return new DelimiterLexer(stream, terminators);
     }
 

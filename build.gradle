@@ -9,7 +9,7 @@ group = 'trino-sql-parser-support-process'
 version = '1.0.0'
 
 dependencies {
-    implementation 'io.trino:trino-parser:351'
+    implementation 'io.trino:trino-parser:391'
     implementation "com.fasterxml.jackson.core:jackson-databind:2.9.9"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-guava:2.9.9"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.9"
