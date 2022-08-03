@@ -6,7 +6,7 @@ RSpec.describe TrinoSqlParser do
   end
 
   it "raises ParseError::ParseError" do
-    expect(lambda { parser.parse("...") }).to raise_error(TrinoSqlParser::ParseError)
+    expect { parser.parse("...") }.to raise_error(TrinoSqlParser::ParseError)
   end
 
   describe TrinoSqlParser::ParseError do
@@ -30,11 +30,37 @@ RSpec.describe TrinoSqlParser do
     end
 
     it "returns token list" do
-      statements = parser.parse("select 1; select * from t")
+      statements = parser.parse("select 1; select func(time, '%S%S'), * from t")
       text, type, line, column = *statements[0]['tokens'].first
       expect(text).to eq("select")
       expect(line).to eq(1)
       expect(column).to eq(0)
+      expect(statements[0].has_key?('statements')).to eq(false)
+    end
+  end
+
+  context "with_statement" do
+    let(:parser) do
+      TrinoSqlParser.new(with_statement: true)
+    end
+
+    it "returns token list" do
+      statements = parser.parse("select 1; select func(time, '%Y%m%d') as f, * from t")
+
+      select_items = statements[1]['statement']['children'][0]['children'][0]['selectItems']
+
+      select_item_classes = select_items.map {|n| n['class'] }
+      expect(select_item_classes).to eq(['SingleColumn', 'AllColumns'])
+
+      func_alias = select_items[0]['alias']['value']
+      expect(func_alias).to eq('f')
+
+      func_arg_classes = select_items[0]['expression']['arguments'].map {|n| n['class'] }
+      func_arg_values = select_items[0]['expression']['arguments'].map {|n| n['value'] }
+      expect(func_arg_classes).to eq(['Identifier', 'StringLiteral'])
+      expect(func_arg_values).to eq(['time', '%Y%m%d'])
+
+      expect(statements[0].has_key?('tokens')).to eq(false)
     end
   end
 end

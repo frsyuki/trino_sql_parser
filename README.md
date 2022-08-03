@@ -79,7 +79,7 @@ rescue TrinoSqlParser::ParseError => e
 end
 ```
 
-Optionally, you can get ANTLR token list. It also supports multiple statements.
+Optionally, you can set `with_tokens: true` option to get ANTLR token list. It also supports multiple statements.
 
 ```ruby
 require 'trino_sql_parser'
@@ -114,6 +114,15 @@ p statements[1]['tokens']
 TrinoSqlParser.java_cmd = "java"  # java command (default: TRINO_SQL_PARSER_JAVA env var or "java")
 TrinoSqlParser.java_args = []     # command-line arguments of java_cmd
 TrinoSqlParser.java_env = {}      # environment variables given to java_cmd
+
+TrinoSqlParser.new(
+  with_tokens: true,    # Set true to include ANTLR token list in 'tokens' field of the result of #parse.
+  with_statement: true, # Set true to include AST in 'statement' field of the result of #parse.
+                        # Be aware that the structure might be changed when you update trino_sql_parser
+                        # version because it's not strictly defined in Trino documents.
+  idle_wait: 2          # Number of seconds to wait until TrinoSqlParser kills a java process. Although
+                        # it restarts a java process automatically, cold start takes time. Default is 2.
+)
 ```
 
 ## Development

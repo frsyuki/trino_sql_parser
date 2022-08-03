@@ -1,4 +1,6 @@
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -22,11 +24,15 @@ public class TrinoSqlParserSupportProcess
     public static void main(String[] args) throws Exception
     {
         boolean withTokens = false;
+        boolean withStatement = false;
 
         for (String arg : args) {
             switch (arg) {
             case "--with-tokens":
                 withTokens = true;
+                break;
+            case "--with-statement":
+                withStatement = true;
                 break;
             default:
                 System.err.println("Unknown argument: " + arg);
@@ -37,6 +43,7 @@ public class TrinoSqlParserSupportProcess
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new GuavaModule());
         mapper.registerModule(new Jdk8Module());
+        mapper.setDefaultTyping(new TrinoTreeNodeTypeResolver());
 
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in, UTF_8));
         while (true) {
@@ -46,13 +53,13 @@ public class TrinoSqlParserSupportProcess
             }
 
             JsonRequest request = mapper.readValue(line, JsonRequest.class);
-            JsonResult result = parse(request.getSql(), withTokens);
+            JsonResult result = parse(request.getSql(), withTokens, withStatement);
             System.out.println(mapper.writeValueAsString(result));
         }
     }
 
     public static JsonResult parse(String sql,
-            boolean withTokens)
+            boolean withTokens, boolean withStatement)
     {
         ImmutableList.Builder<JsonStatement> statements = ImmutableList.builder();
         ImmutableList.Builder<JsonErrorReport> errors = ImmutableList.builder();
@@ -66,7 +73,7 @@ public class TrinoSqlParserSupportProcess
                 Statement statement = parser.createStatement(
                         fragment.getStatement(),
                         new ParsingOptions(DecimalLiteralTreatment.AS_DOUBLE));
-                statements.add(new JsonStatement(fragment, statement, withTokens));
+                statements.add(new JsonStatement(fragment, statement, withTokens, withStatement));
             }
             catch (ParsingException ex) {
                 errors.add(
@@ -78,5 +85,25 @@ public class TrinoSqlParserSupportProcess
         }
 
         return new JsonResult(statements.build(), errors.build());
+    }
+
+    // Use this type resolver to include class name as "class" field. The field
+    // name of "class" is safe because no node classes of io.trino.sql.tree.*
+    // define getClass() method.
+    private static class TrinoTreeNodeTypeResolver
+            extends ObjectMapper.DefaultTypeResolverBuilder
+    {
+        public TrinoTreeNodeTypeResolver() {
+            super(ObjectMapper.DefaultTyping.NON_FINAL);
+            init(JsonTypeInfo.Id.NAME, null);
+            inclusion(JsonTypeInfo.As.PROPERTY);
+            typeProperty("class");
+        }
+
+        @Override
+        public boolean useForType(JavaType t)
+        {
+            return t.getRawClass().getName().startsWith("io.trino.sql.tree");
+        }
     }
 }

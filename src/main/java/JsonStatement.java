@@ -1,5 +1,6 @@
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.trino.sql.parser.StatementSplitterWithOffsetRetained.Fragment;
@@ -40,16 +41,23 @@ public class JsonStatement
     private final int line;
     private final int column;
     private final List<JsonToken> tokens;
+    private final Statement statement;
 
-    public JsonStatement(Fragment fragment, Statement statement, boolean withTokens)
+    public JsonStatement(Fragment fragment, Statement statement, boolean withTokens, boolean withStatement)
     {
-        this.line= fragment.getLineOffset() + 1;
-        this.column= fragment.getFirstLineColumnOffset();
+        this.line = fragment.getLineOffset() + 1;
+        this.column = fragment.getFirstLineColumnOffset();
         if (withTokens) {
             this.tokens = fragment.getTokens().stream().map(JsonToken::new).collect(toImmutableList());
         }
         else {
             this.tokens = null;
+        }
+        if (withStatement) {
+            this.statement = statement;
+        }
+        else {
+            this.statement = null;
         }
     }
 
@@ -60,5 +68,10 @@ public class JsonStatement
     public int getColumn() { return column; }
 
     @JsonProperty
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Statement getStatement() { return statement; }
+
+    @JsonProperty
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<JsonToken> getTokens() { return tokens; }
 }

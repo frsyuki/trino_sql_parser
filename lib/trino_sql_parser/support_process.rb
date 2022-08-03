@@ -2,9 +2,10 @@ require 'shellwords'
 
 class TrinoSqlParser
   class SupportProcess
-    def initialize(idle_wait: 2, with_tokens:)
+    def initialize(idle_wait:, with_tokens:, with_statement:)
       @idle_wait = idle_wait
       @with_tokens = with_tokens
+      @with_statement = with_statement
       @mutex = Mutex.new
       @last_used_pid = nil
       @pipe = nil
@@ -22,6 +23,9 @@ class TrinoSqlParser
 
       if @with_tokens
         cmd << " --with-tokens"
+      end
+      if @with_statement
+        cmd << " --with-statement"
       end
 
       @pipe = IO.popen(TrinoSqlParser.java_env, cmd, "r+", external_encoding: 'UTF-8')
