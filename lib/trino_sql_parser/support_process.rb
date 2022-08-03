@@ -2,8 +2,8 @@ require 'shellwords'
 
 class TrinoSqlParser
   class SupportProcess
-    def initialize(idle_wait:, with_tokens:, with_statement:)
-      @idle_wait = idle_wait
+    def initialize(idle_timeout:, with_tokens:, with_statement:)
+      @idle_timeout = idle_timeout
       @with_tokens = with_tokens
       @with_statement = with_statement
       @mutex = Mutex.new
@@ -60,7 +60,7 @@ class TrinoSqlParser
         done = Process.waitpid2(pid, Process::WNOHANG) rescue true
         break if done
 
-        sleep @idle_wait
+        sleep @idle_timeout
         if @last_used_pid != pid
           kill! rescue nil
         end

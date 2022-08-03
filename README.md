@@ -120,7 +120,7 @@ TrinoSqlParser.new(
   with_statement: true, # Set true to include AST in 'statement' field of the result of #parse.
                         # Be aware that the structure might be changed when you update trino_sql_parser
                         # version because it's not strictly defined in Trino documents.
-  idle_wait: 2          # Number of seconds to wait until TrinoSqlParser kills a java process. Although
+  idle_timeout: 2       # Number of seconds to wait until TrinoSqlParser kills a java process. Although
                         # it restarts a java process automatically, cold start takes time. Default is 2.
 )
 ```

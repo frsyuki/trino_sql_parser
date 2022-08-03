@@ -35,8 +35,8 @@ class TrinoSqlParser
 
   require 'trino_sql_parser/support_process'
 
-  def initialize(idle_wait: 2, with_tokens: false, with_statement: false)
-    @support_process = SupportProcess.new(idle_wait: idle_wait, with_tokens: with_tokens, with_statement: with_statement)
+  def initialize(idle_timeout: 2, with_tokens: false, with_statement: false)
+    @support_process = SupportProcess.new(idle_timeout: idle_timeout, with_tokens: with_tokens, with_statement: with_statement)
   end
 
   def parse(sql)
